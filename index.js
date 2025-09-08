@@ -74,6 +74,14 @@ app.use(session(sessionOption));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+    res.locals.sucess = req.flash("sucess");
+    res.locals.error = req.flash("error")
+    res.locals.currClient = req.user
+    next();
+})
+
 passport.use(new LocalStrategy(Client.authenticate()));
 passport.serializeUser(Client.serializeUser());
 passport.deserializeUser(Client.deserializeUser());
@@ -81,12 +89,7 @@ passport.deserializeUser(Client.deserializeUser());
 
 
 
-app.use((req,res,next)=>{
-    res.locals.sucess=req.flash("sucess");
-    res.locals.error=req.flash("error")
-    res.locals.currClient=req.user
-    next();
-})
+
 
 app.get("/", async (req, res) => {
     const users = await user.find(); // ya apke home controller se
