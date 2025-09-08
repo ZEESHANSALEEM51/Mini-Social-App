@@ -78,9 +78,9 @@ passport.use(new LocalStrategy(Client.authenticate()));
 passport.serializeUser(Client.serializeUser());
 passport.deserializeUser(Client.deserializeUser());
 
-app.get("/",(req,res)=>{
-    res.send("Alhamdulillah Root is working");
-})
+// app.get("/",(req,res)=>{
+//     res.send("Alhamdulillah Root is working");
+// })
 
 
 app.use((req,res,next)=>{
