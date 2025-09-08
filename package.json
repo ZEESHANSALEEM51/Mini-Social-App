@@ -1,7 +1,8 @@
 {
-  "scripts": {
-    "start": "node index.js"
-  },
+ "scripts": {
+  "start": "node index.js",
+  "vercel-build": "npm install"
+},
   "engines": {
     "node": "22.12.0"
   },
