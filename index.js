@@ -12,7 +12,7 @@ const ejsmate=require("ejs-mate");
 const ExpressError=require("./utils/ExpressError.js");
 //define the path of public folder
 const path=require("path");
-app.use(express.static(path.join(__dirname,"public")));
+const user = require("./models/schema.js");
 //for parsing the form data
 app.use(express.urlencoded({extended : true})); 
 app.engine("ejs",ejsmate);
@@ -54,7 +54,7 @@ const store = MongoStore.create({
     },
     touchAfter: 24 * 3600,
 })
-store.on("error",()=>{
+store.on("error",(err)=>{
     console.log("Error in mongo session store",err)
 })
 const sessionOption={
@@ -78,9 +78,7 @@ passport.use(new LocalStrategy(Client.authenticate()));
 passport.serializeUser(Client.serializeUser());
 passport.deserializeUser(Client.deserializeUser());
 
-// app.get("/",(req,res)=>{
-//     res.send("Alhamdulillah Root is working");
-// })
+
 
 
 app.use((req,res,next)=>{
@@ -88,6 +86,11 @@ app.use((req,res,next)=>{
     res.locals.error=req.flash("error")
     res.locals.currClient=req.user
     next();
+})
+
+app.get("/", async (req, res) => {
+    const users = await user.find(); // ya apke home controller se
+    res.render("home.ejs", { users });
 })
 
 app.use("/users",users);
