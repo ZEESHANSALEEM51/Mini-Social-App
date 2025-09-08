@@ -87,10 +87,6 @@ passport.serializeUser(Client.serializeUser());
 passport.deserializeUser(Client.deserializeUser());
 
 
-
-
-
-
 app.get("/", async (req, res) => {
     const users = await user.find(); // ya apke home controller se
     res.render("home.ejs", { users });
