@@ -1,0 +1,117 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+  .star {
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .star:hover {
+    transform: scale(1.2) rotate(10deg);
+    color: gold;
+  }
+  .fa-solid {
+    color: gold;
+  }
+</style>
+<body>
+    <div class="container my-5 mt-2">
+        <h3 class="text-center mb-4">Users Info</h3>
+        <div class="card shadow-sm mt-1">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <img src="<%= users.image %>" alt="User Image" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+                    <div class="ms-3">
+                        <p><i>Id : </i><%= users._id %></p>
+                        <p><i>Owned by : <%= users.owner.username %></i></p>
+                        <p><strong>Name : <%= users.name %></strong></p>
+                        <p><i>Email : <%= users.email %></i></p>
+                    </div>
+                </div>
+                <p><b>Post : </b><span class="bg-warning text-dark p-2 rounded" style="font-weight: bold;  line-height: 2.8rem;"><%= users.post %></span></p>
+                <p><strong>Comment : </strong><%= users.comment %></p>
+                <p><b>Likes : <%= users.likes %></b></p>
+                <p><b>Followers : <%= users.followers %></b></p>
+                <p><b>Created at : </b><%= users.createdAt %></p>
+                <% if(currClient && users.owner._id.equals(currClient._id)){ %>
+                    <div class="d-flex gap-2 mt-3">
+                    <form method="get" action="/users/<%= users._id %>/edit">
+                        <button class="btn btn-primary" type="submit">Edit</button>
+                    </form>
+                    <form method="get" action="/users/<%= users._id %>/delete">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </div>
+              <% } %>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="col-14 offset-1">
+        <% if(currClient){ %>
+    <h3>Add Comments</h3>
+    <form action="/users/<%= users._id %>/comments" method="post" novalidate class="needs-validation">
+        <div class="mb-3 mt-3">
+  <label for="rating">Rating</label>
+  <div id="star-rating" class="d-flex">
+    <i class="fa-regular fa-star star" data-value="1"></i>
+    <i class="fa-regular fa-star star" data-value="2"></i>
+    <i class="fa-regular fa-star star" data-value="3"></i>
+    <i class="fa-regular fa-star star" data-value="4"></i>
+    <i class="fa-regular fa-star star" data-value="5"></i>
+  </div>
+  <!-- hidden input to store value -->
+  <input type="hidden" min="1" max="5" value="data-value" name="comments[rating]" id="rating-value" >
+</div>
+        <div class="mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea name="comments[comment]" id="comment" rows="2" cols="6" class="form-control" required></textarea>
+            <div class="invalid-feedback">Please add comment for review</div>
+        </div>
+        <button class="btn btn-outline-dark mb-2">Submit</button>
+    </form>
+    <% } %>
+</div>
+
+<h3><b>All Comments</b></h3>
+    <div class="row">
+    <% for(comment of users.comments){ %>
+    <div class="col-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" style="font-size: 1.5rem;">@<%= comment.author.username %></h5>
+                <p class="card-text" style="font-size: 1.1rem;"><%= comment.comment %></p>
+                <p class="card-text" style="font-size: 1rem;"><%= comment.rating %> stars</p>
+                <form class="mb-3" method="post" action="/users/<%= users._id %>/comments/<%= comment._id %>?_method=delete">
+                    <button class="btn btn-sm btn-dark">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</div>
+</body>
+<script>
+     //For Rating
+    const stars = document.querySelectorAll(".star");
+  const ratingValue = document.getElementById("rating-value");
+
+  stars.forEach((star, index) => {
+    star.addEventListener("click", () => {
+      let value = star.getAttribute("data-value");
+      ratingValue.value = value;
+
+      // reset all stars
+      stars.forEach(s => {
+        s.classList.remove("fa-solid");
+        s.classList.add("fa-regular");
+      });
+
+      // fill selected stars
+      for (let i = 0; i <= index; i++) {
+        stars[i].classList.remove("fa-regular");
+        stars[i].classList.add("fa-solid");
+      }
+    });
+  });
+</script>
+</html>

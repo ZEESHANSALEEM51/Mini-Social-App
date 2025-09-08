@@ -1,0 +1,50 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    <div class="container my-5">
+        <div class="card shadow-sm">
+            <div class="card-header text-center bg-primary text-white">
+                <h1>Edit User Info</h1>
+                <h3>Editing the User Id : <%= users._id %></h3>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/users/<%= users._id %>?_method=patch" enctype="multipart/form-data"  novalidate class="needs-validation">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">New Name :</label>
+                        <input type="text" name="name" class="form-control" value="<%= users.name %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Insert new image :</label>
+                        <input type="file" name="image" class="form-control" accept="image/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Update email :</label>
+                        <input type="email" name="email" class="form-control" value="<%= users.email %>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="post" class="form-label">Update post :</label>
+                        <textarea name="post" class="form-control" rows="5" required><%= users.post%></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Update comment :</label>
+                        <textarea name="comment" class="form-control" rows="3"><%= users.comment %></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="likes" class="form-label">Likes :</label>
+                        <input type="number" name="likes" class="form-control" value="<%= users.likes %>" style="width: 100px;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="followers" class="form-label">Followers :</label>
+                        <input type="number" name="followers" class="form-control" value="<%= users.followers %>" style="width: 100px;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Enter password :</label>
+                        <input type="password" name="password" class="form-control" placeholder="Enter the password" required>
+                        <div class="invalid-feedback">Please enter password for validation</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

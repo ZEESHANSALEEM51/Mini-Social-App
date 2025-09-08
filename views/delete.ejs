@@ -1,0 +1,21 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    <div class="container my-5">
+        <div class="card shadow-sm">
+            <div class="card-header text-center bg-danger text-white">
+                <h3>Delete User</h3>
+                <h5>Delete the user, Id : <%= users._id %></h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/users/<%= users._id %>?_method=delete" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Enter the password for verification :</label>
+                        <input type="password" name="password" class="form-control" placeholder="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
