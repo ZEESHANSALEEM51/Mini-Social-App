@@ -1,3 +1,24 @@
+// Add scroll effect to navbar
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
+// Active link highlighting
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        }
+    });
+});
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (() => {
   'use strict'
@@ -17,3 +38,13 @@
     }, false)
   })
 })()
+//footer
+// Auto-update copyright year
+document.addEventListener('DOMContentLoaded', function() {
+    const yearElements = document.querySelectorAll('#currentYear');
+    const currentYear = new Date().getFullYear();
+    
+    yearElements.forEach(element => {
+        element.textContent = currentYear;
+    });
+});

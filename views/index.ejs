@@ -1,117 +1,441 @@
 <% layout("/layouts/boilerplate") %>
+
 <style>
-  .star {
-    font-size: 2rem;
+/* Modern Styling */
+.profile-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.profile-img {
+    width: 180px;
+    height: 180px;
+    border: 5px solid white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.comment-card {
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.comment-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.star-rating .star {
+    font-size: 1.8rem;
+    color: #dee2e6;
     cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  .star:hover {
-    transform: scale(1.2) rotate(10deg);
-    color: gold;
-  }
-  .fa-solid {
-    color: gold;
-  }
+    transition: all 0.2s ease;
+}
+
+.star-rating .star:hover {
+    color: #ffc107;
+    transform: scale(1.2);
+}
+
+.star-rating .star.active {
+    color: #ffc107;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-img {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .profile-header {
+        border-radius: 15px;
+    }
+    
+    .stat-card {
+        padding: 15px;
+    }
+}
 </style>
+
 <body>
-    <div class="container my-5 mt-2">
-        <h3 class="text-center mb-4">Users Info</h3>
-        <div class="card shadow-sm mt-1">
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                    <img src="<%= users.image %>" alt="User Image" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
-                    <div class="ms-3">
-                        <p><i>Id : </i><%= users._id %></p>
-                        <p><i>Owned by : <%= users.owner.username %></i></p>
-                        <p><strong>Name : <%= users.name %></strong></p>
-                        <p><i>Email : <%= users.email %></i></p>
+    <!-- Profile Header -->
+    <div class="container py-4 py-lg-5">
+        <div class="profile-header shadow-lg mb-5">
+            <div class="row align-items-center text-white p-4 p-lg-5">
+                <!-- Profile Image -->
+                <div class="col-md-3 text-center text-md-start mb-4 mb-md-0">
+                    <div class="position-relative d-inline-block">
+                        <img src="<%= users.image %>" 
+                             alt="<%= users.name %>" 
+                             class="profile-img rounded-circle object-fit-cover">
+                        <div class="position-absolute bottom-0 end-0">
+                            <span class="badge bg-success rounded-pill px-3 py-2">
+                                <i class="fas fa-circle fa-beat-fade me-1"></i> Active
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <p><b>Post : </b><span class="bg-warning text-dark p-2 rounded" style="font-weight: bold;  line-height: 2.8rem;"><%= users.post %></span></p>
-                <p><strong>Comment : </strong><%= users.comment %></p>
-                <p><b>Likes : <%= users.likes %></b></p>
-                <p><b>Followers : <%= users.followers %></b></p>
-                <p><b>Created at : </b><%= users.createdAt %></p>
-                <% if(currClient && users.owner._id.equals(currClient._id)){ %>
-                    <div class="d-flex gap-2 mt-3">
-                    <form method="get" action="/users/<%= users._id %>/edit">
-                        <button class="btn btn-primary" type="submit">Edit</button>
-                    </form>
-                    <form method="get" action="/users/<%= users._id %>/delete">
-                        <button class="btn btn-danger" type="submit">Delete</button>
-                    </form>
+
+                <!-- Profile Info -->
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h1 class="display-6 fw-bold mb-2"><%= users.name %></h1>
+                            <p class="lead mb-3 opacity-90">
+                                <i class="fas fa-envelope me-2"></i><%= users.email %>
+                            </p>
+                            <div class="d-flex flex-wrap gap-3 align-items-center">
+                                <span class="badge bg-light text-dark px-3 py-2 rounded-pill">
+                                    <i class="fas fa-hashtag me-2"></i>ID: <%= users._id.toString().slice(-8) %>
+                                </span>
+                                <span class="badge bg-light text-dark px-3 py-2 rounded-pill">
+                                    <i class="fas fa-user-tag me-2"></i><%= users.owner.username %>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Edit/Delete Buttons for Owner -->
+                        <% if(currClient && users.owner._id.equals(currClient._id)){ %>
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow">
+                                <li>
+                                    <a class="dropdown-item" href="/users/<%= users._id %>/edit">
+                                        <i class="fas fa-edit me-2 text-primary"></i>Edit Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="/users/<%= users._id %>/delete">
+                                        <i class="fas fa-trash me-2"></i>Delete Profile
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <% } %>
+                    </div>
                 </div>
-              <% } %>
             </div>
         </div>
-    </div>
-    <hr>
-    <div class="col-14 offset-1">
-        <% if(currClient){ %>
-    <h3>Add Comments</h3>
-    <form action="/users/<%= users._id %>/comments" method="post" novalidate class="needs-validation">
-        <div class="mb-3 mt-3">
-  <label for="rating">Rating</label>
-  <div id="star-rating" class="d-flex">
-    <i class="fa-regular fa-star star" data-value="1"></i>
-    <i class="fa-regular fa-star star" data-value="2"></i>
-    <i class="fa-regular fa-star star" data-value="3"></i>
-    <i class="fa-regular fa-star star" data-value="4"></i>
-    <i class="fa-regular fa-star star" data-value="5"></i>
-  </div>
-  <!-- hidden input to store value -->
-  <input type="hidden" min="1" max="5" value="data-value" name="comments[rating]" id="rating-value" >
-</div>
-        <div class="mb-3">
-            <label for="comment" class="form-label">Comment</label>
-            <textarea name="comments[comment]" id="comment" rows="2" cols="6" class="form-control" required></textarea>
-            <div class="invalid-feedback">Please add comment for review</div>
-        </div>
-        <button class="btn btn-outline-dark mb-2">Submit</button>
-    </form>
-    <% } %>
-</div>
 
-<h3><b>All Comments</b></h3>
-    <div class="row">
-    <% for(comment of users.comments){ %>
-    <div class="col-6 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title" style="font-size: 1.5rem;">@<%= comment.author.username %></h5>
-                <p class="card-text" style="font-size: 1.1rem;"><%= comment.comment %></p>
-                <p class="card-text" style="font-size: 1rem;"><%= comment.rating %> stars</p>
-                <form class="mb-3" method="post" action="/users/<%= users._id %>/comments/<%= comment._id %>?_method=delete">
-                    <button class="btn btn-sm btn-dark">Delete</button>
-                </form>
+        <!-- User Stats Grid -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="text-primary mb-2">
+                        <i class="fas fa-heart fa-2x"></i>
+                    </div>
+                    <h3 class="fw-bold"><%= users.likes.toLocaleString("en-IN") %></h3>
+                    <p class="text-muted mb-0">Likes</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="text-success mb-2">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                    <h3 class="fw-bold"><%= users.followers.toLocaleString("en-IN") %></h3>
+                    <p class="text-muted mb-0">Followers</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="text-warning mb-2">
+                        <i class="fas fa-calendar-alt fa-2x"></i>
+                    </div>
+                    <h3 class="fw-bold">
+                        <%= new Date(users.createdAt).toLocaleDateString('en-IN', { 
+                            day: 'numeric', 
+                            month: 'short', 
+                            year: 'numeric' 
+                        }) %>
+                    </h3>
+                    <p class="text-muted mb-0">Joined Date</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="text-info mb-2">
+                        <i class="fas fa-comments fa-2x"></i>
+                    </div>
+                    <h3 class="fw-bold"><%= users.comments ? users.comments.length : 0 %></h3>
+                    <p class="text-muted mb-0">Comments</p>
+                </div>
             </div>
         </div>
+
+        <!-- Post and Comment Section -->
+        <div class="row g-4">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- User Post -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h4 class="mb-0">
+                            <i class="fas fa-feather-alt me-2 text-primary"></i>User's Post
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="bg-light rounded-3 p-4">
+                            <p class="fs-5 mb-0" style="line-height: 1.8;">
+                                <%= users.post %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Comment -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h4 class="mb-0">
+                            <i class="fas fa-comment me-2 text-primary"></i>User's Comment
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-light border" role="alert">
+                            <p class="mb-0 fs-5">
+                                <i class="fas fa-quote-left text-muted me-2"></i>
+                                <%= users.comment %>
+                                <i class="fas fa-quote-right text-muted ms-2"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar - Add Comment Form -->
+            <div class="col-lg-4">
+                <% if(currClient){ %>
+                <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+                    <div class="card-header bg-primary text-white border-0 py-3">
+                        <h4 class="mb-0">
+                            <i class="fas fa-plus-circle me-2"></i>Add Review
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/users/<%= users._id %>/comments" method="post" novalidate>
+                            <!-- Star Rating -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Rate this user</label>
+                                <div class="star-rating d-flex justify-content-center mb-2" id="star-rating">
+                                    <% for(let i=1; i<=5; i++){ %>
+                                        <i class="fa-regular fa-star star mx-1" data-value="<%= i %>"></i>
+                                    <% } %>
+                                </div>
+                                <input type="hidden" name="comments[rating]" id="rating-value" required>
+                                <div class="invalid-feedback text-center">Please select a rating</div>
+                            </div>
+
+                            <!-- Comment -->
+                            <div class="mb-4">
+                                <label for="comment" class="form-label fw-bold">Your Review</label>
+                                <textarea name="comments[comment]" 
+                                          id="comment" 
+                                          rows="4" 
+                                          class="form-control" 
+                                          placeholder="Share your thoughts about this user..." 
+                                          required></textarea>
+                                <div class="invalid-feedback">Please write a review</div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                                <i class="fas fa-paper-plane me-2"></i>Submit Review
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <% } else { %>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-lock fa-3x text-muted mb-3"></i>
+                        <h5 class="mb-3">Sign in to Review</h5>
+                        <p class="text-muted mb-3">You need to be logged in to add a review</p>
+                        <a href="/login" class="btn btn-outline-primary w-100 mb-2">Login</a>
+                        <a href="/signup" class="btn btn-primary w-100">Sign Up</a>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="mt-5 pt-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold">
+                    <i class="fas fa-comments me-2 text-primary"></i>
+                    User Reviews
+                    <span class="badge bg-primary rounded-pill ms-2">
+                        <%= users.comments ? users.comments.length : 0 %>
+                    </span>
+                </h3>
+                
+                <% if(users.comments && users.comments.length > 0) { %>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-filter me-2"></i>Sort By
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Newest First</a></li>
+                        <li><a class="dropdown-item" href="#">Highest Rated</a></li>
+                        <li><a class="dropdown-item" href="#">Lowest Rated</a></li>
+                    </ul>
+                </div>
+                <% } %>
+            </div>
+
+            <!-- Comments Grid -->
+            <% if(users.comments && users.comments.length > 0) { %>
+            <div class="row g-4">
+                <% for(let comment of users.comments){ %>
+                <div class="col-md-6 col-lg-4">
+                    <div class="comment-card">
+                        <div class="card-body">
+                            <!-- Comment Header -->
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                        <i class="fas fa-user text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">@<%= comment.author.username %></h6>
+                                        <small class="text-muted">
+                                            <%= new Date(comment.createdAt).toLocaleDateString('en-IN') %>
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Star Rating Display -->
+                                <div class="text-warning">
+                                    <% for(let i=1; i<=5; i++){ %>
+                                        <i class="fas fa-star <%= i <= comment.rating ? 'text-warning' : 'text-light' %>"></i>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <!-- Comment Text -->
+                            <p class="mb-3" style="min-height: 60px;">
+                                <%= comment.comment %>
+                            </p>
+
+                            <!-- Delete Button (if owner) -->
+                            <% if(currClient && currClient._id.equals(comment.author._id)) { %>
+                            <div class="text-end">
+                                <form method="post" 
+                                      action="/users/<%= users._id %>/comments/<%= comment._id %>?_method=delete" 
+                                      class="d-inline">
+                                    <button type="submit" 
+                                            class="btn btn-sm btn-outline-danger" 
+                                            onclick="return confirm('Are you sure you want to delete this review?')">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </button>
+                                </form>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            <% } else { %>
+            <!-- Empty State -->
+            <div class="text-center py-5 my-4">
+                <div class="mb-4">
+                    <i class="fas fa-comment-slash fa-4x text-muted opacity-25"></i>
+                </div>
+                <h4 class="text-muted mb-3">No Reviews Yet</h4>
+                <p class="text-muted mb-4">Be the first one to review this user!</p>
+            </div>
+            <% } %>
+        </div>
     </div>
-    <% } %>
-</div>
 </body>
+
 <script>
-     //For Rating
+// Star Rating System
+document.addEventListener('DOMContentLoaded', function() {
     const stars = document.querySelectorAll(".star");
-  const ratingValue = document.getElementById("rating-value");
-
-  stars.forEach((star, index) => {
-    star.addEventListener("click", () => {
-      let value = star.getAttribute("data-value");
-      ratingValue.value = value;
-
-      // reset all stars
-      stars.forEach(s => {
-        s.classList.remove("fa-solid");
-        s.classList.add("fa-regular");
-      });
-
-      // fill selected stars
-      for (let i = 0; i <= index; i++) {
-        stars[i].classList.remove("fa-regular");
-        stars[i].classList.add("fa-solid");
-      }
+    const ratingValue = document.getElementById("rating-value");
+    
+    // Initialize form validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
     });
-  });
+
+    // Star rating functionality
+    stars.forEach((star, index) => {
+        star.addEventListener("click", () => {
+            const value = star.getAttribute("data-value");
+            ratingValue.value = value;
+            
+            // Reset all stars
+            stars.forEach(s => {
+                s.classList.remove("fa-solid", "active");
+                s.classList.add("fa-regular");
+            });
+            
+            // Fill selected stars
+            for (let i = 0; i <= index; i++) {
+                stars[i].classList.remove("fa-regular");
+                stars[i].classList.add("fa-solid", "active");
+            }
+            
+            // Remove validation error
+            ratingValue.classList.remove('is-invalid');
+        });
+    });
+
+    // Validate rating on form submit
+    const commentForm = document.querySelector('form[action*="/comments"]');
+    if (commentForm) {
+        commentForm.addEventListener('submit', function(e) {
+            if (!ratingValue.value || ratingValue.value < 1) {
+                e.preventDefault();
+                ratingValue.classList.add('is-invalid');
+                ratingValue.focus();
+            }
+        });
+    }
+    
+    // Add hover effect to comment cards
+    document.querySelectorAll('.comment-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.boxShadow = '0 8px 20px rgba(0,0,0,0.12)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+        });
+    });
+});
 </script>
-</html>

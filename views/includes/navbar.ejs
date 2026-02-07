@@ -1,31 +1,104 @@
-<style>
-  .navbar-collapse {
-  background-color: white; /* or any color */
-}
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-2">
+  <div class="container">
+    <!-- Brand Logo -->
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/users" style="color: #3b82f6;">
+      <i class="fas fa-compass fa-lg"></i>
+      <span class="d-none d-md-inline fs-5">Sayaragaram</span>
+    </a>
 
-</style>
-<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#"><i class="fas fa-compass"></i>
-</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- Mobile Toggle Button -->
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/users">Home</a>
-        <a class="nav-link" href="/users">Show Users</a>
-        <a class="nav-link" href="/users/add">Add Account</a>
-      </div>
-      <div class="navbar-nav ms-auto">
+
+    <!-- Navigation Items -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Main Navigation Links with better spacing -->
+      <ul class="navbar-nav mx-auto d-flex justify-content-center align-items-center gap-3">
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center px-3 py-2 rounded" href="/users">
+            <i class="fas fa-home mb-1"></i>
+            <span class="small">Home</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center px-3 py-2 rounded" href="/users">
+            <i class="fas fa-users mb-1"></i>
+            <span class="small">Users</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link d-flex flex-column align-items-center px-3 py-2 rounded" href="/users/add">
+            <i class="fas fa-user-plus mb-1"></i>
+            <span class="small">Add Account</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Right Side Navigation -->
+      <ul class="navbar-nav align-items-center">
         <% if(!currClient){ %>
-        <a class="nav-link" href="/signup">SignUp</a>
-        <a class="nav-link" href="/login">Login</a>
+          <div class="d-flex gap-2">
+            <li class="nav-item">
+              <a class="btn btn-outline-primary px-4 rounded-pill" href="/signup">
+                <i class="fas fa-user-plus me-1"></i> Sign Up
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-primary px-4 rounded-pill" href="/login">
+                <i class="fas fa-sign-in-alt me-1"></i> Login
+              </a>
+            </li>
+          </div>
         <% } %>
+        
         <% if(currClient){ %>
-        <a class="nav-link" href="/logout">Logout</a>
+          <!-- User Profile with Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="bg-primary bg-gradient rounded-circle d-flex align-items-center justify-content-center" 
+                   style="width: 36px; height: 36px;">
+                <i class="fas fa-user text-white"></i>
+              </div>
+              <span class="d-none d-lg-inline">Profile</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="min-width: 200px;">
+              <li>
+                <a class="dropdown-item d-flex align-items-center py-2" href="#">
+                  <i class="fas fa-user-circle me-2 text-primary"></i>
+                  <div>
+                    <div class="fw-bold">My Profile</div>
+                    <div class="text-muted small">View your profile</div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center py-2" href="#">
+                  <i class="fas fa-cog me-2 text-primary"></i>
+                  <div>
+                    <div class="fw-bold">Settings</div>
+                    <div class="text-muted small">Manage preferences</div>
+                  </div>
+                </a>
+              </li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center py-2 text-danger" href="/logout">
+                  <i class="fas fa-sign-out-alt me-2"></i>
+                  <div>
+                    <div class="fw-bold">Logout</div>
+                    <div class="text-muted small">End your session</div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </li>
         <% } %>
-      </div>
+      </ul>
     </div>
   </div>
 </nav>

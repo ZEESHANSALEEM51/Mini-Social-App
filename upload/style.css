@@ -1,63 +1,209 @@
 /* Navbar */
-.navbar{
-    height: 5rem;
-    background-color: white;
-    margin-left: 1rem !important;
+/* Navbar Enhancements */
+.navbar {
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
 }
-.container-fluid>a>i{
-    font-size: 2.4rem;
-    color: dodgerblue;
-}
-.nav-link{
-    color: #222222 !important;
-    font-size: 1.2rem !important;
-}
-.nav-link:hover{
-    text-decoration: underline;
-}
-/* card */
 
-.card:hover{
-  background-color: rgba(0, 0, 0, 0.1); 
+.navbar.scrolled {
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
-.col>a{
-    text-decoration: none;
+
+.nav-link {
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    margin: 0 2px;
 }
-.add-btn{
-    background-color: dodgerblue !important;
+
+.nav-link:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+    transform: translateY(-1px);
+}
+
+.nav-link.active {
+    background-color: #0d6efd;
+    color: white !important;
+}
+
+.dropdown-menu {
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    animation: dropdownFade 0.2s ease;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile menu improvements */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 10px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .nav-link {
+        padding: 12px 15px;
+        margin: 5px 0;
+    }
+}
+/*Home*/
+/* Card Hover Effects */
+.hover-lift {
+    transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+/* Custom Card Styles */
+.card {
+    border-radius: 16px !important;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.card-img-top {
+    transition: transform 0.5s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Badge Styles */
+.badge {
+    font-weight: 500;
+}
+
+/* Button Styles */
+.btn-outline-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+}
+
+/* Stats Cards */
+.bg-light.rounded-3 {
+    transition: all 0.3s ease;
+}
+
+.bg-light.rounded-3:hover {
+    background-color: #e9ecef !important;
+    transform: scale(1.05);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 180px !important;
+    }
+    
+    .display-5 {
+        font-size: 2rem;
+    }
 }
 /* footer */
-.f-info-links a{
-    text-decoration: none !important;
-    color: #222222 !important;
+/* Footer Styles */
+.bg-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
 }
-.f-info-links a:hover{
-    text-decoration: underline !important;
+
+/* Social Icons Styling */
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
-.f-info-links,
-.f-info-socials,.f-info-brand{
-    width: 100%;
+
+.social-icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.social-icon.facebook {
+    background: #3b5998;
+}
+
+.social-icon.instagram {
+    background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+}
+
+.social-icon.linkedin {
+    background: #0077b5;
+}
+
+.social-icon.twitter {
+    background: #1da1f2;
+}
+
+/* Social Buttons */
+.social-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: white;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-.f-info-socials{
-    font-size: 1.2rem;
-    margin-right: 1rem;
+
+.social-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
-.f-info-socials i{
-    margin-right: 1rem;
-    font-size: 1.2rem;
+
+.social-btn.facebook:hover {
+    background: #3b5998;
+    color: white;
 }
-.f-info{
-    text-align: center;
-    height: 8rem;
-    width: 100%;
-    background-color: #ebebeb;
-    flex-wrap: wrap;
-    display: flex;
-    justify-content: center;
-    align-items: space-evenly;
-   
-    
+
+.social-btn.instagram:hover {
+    background: linear-gradient(45deg, #405de6, #833ab4, #c13584, #fd1d1d);
+    color: white;
+}
+
+.social-btn.linkedin:hover {
+    background: #0077b5;
+    color: white;
+}
+
+/* Text Hover Effects */
+.hover-text-primary:hover {
+    color: #3b82f6 !important;
+}
+
+.hover-underline:hover {
+    text-decoration: underline !important;
+}
+
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.2);
 }
