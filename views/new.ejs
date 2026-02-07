@@ -1,58 +1,663 @@
 <% layout("/layouts/boilerplate") %>
+
+<style>
+/* Modern Form Styling */
+.new-user-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-section-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 25px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.form-section-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #f0f2f5;
+}
+
+.section-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.section-title {
+    color: #1f2937;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.section-subtitle {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Form Controls */
+.form-control-modern {
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+}
+
+.form-control-modern:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background: white;
+    transform: translateY(-1px);
+}
+
+.form-label-modern {
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* File Upload Styling */
+.file-upload-wrapper {
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.file-upload-wrapper:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.file-upload-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(29, 78, 216, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.file-upload-wrapper:hover::before {
+    opacity: 1;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    color: #9ca3af;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.file-upload-wrapper:hover .upload-icon {
+    color: #3b82f6;
+    transform: translateY(-5px);
+}
+
+/* Stats Inputs */
+.stats-container {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.stats-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stats-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.likes-icon {
+    background: linear-gradient(135deg, #fecaca, #fca5a5);
+    color: #dc2626;
+}
+
+.followers-icon {
+    background: linear-gradient(135deg, #bbf7d0, #86efac);
+    color: #16a34a;
+}
+
+.stats-input {
+    width: 120px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Submit Button */
+.submit-btn {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border: none;
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-section-card {
+        padding: 20px;
+        border-radius: 12px;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .section-icon {
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+    
+    .file-upload-wrapper {
+        padding: 30px 20px;
+    }
+    
+    .submit-btn {
+        width: 100%;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-container {
+        padding: 15px;
+    }
+    
+    .stats-input-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .stats-input {
+        width: 100%;
+    }
+    
+    .form-control-modern {
+        padding: 12px 15px;
+    }
+}
+</style>
+
 <body>
-    <div class="container my-5">
-        <div class="card shadow-sm">
-            <div class="card-header text-center bg-primary text-white">
-                <h1>Insert New Users</h1>
+    <div class="container py-5">
+        <!-- Page Header -->
+        <div class="text-center mb-5">
+            <div class="mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-circle p-4 mb-3">
+                    <i class="fas fa-user-plus fa-3x text-primary"></i>
+                </div>
+                <h1 class="display-6 fw-bold text-dark mb-3">Add New User</h1>
+                <p class="text-muted fs-5">Create a new user account for your social platform</p>
             </div>
-            <div class="card-body">
-                <form method="post" action="/users/add" enctype="multipart/form-data" novalidate class="needs-validation">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name :</label>
-                        <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
-                        <div class="invalid-feedback">Name is required</div>
+        </div>
+
+        <!-- Main Form -->
+        <div class="new-user-container">
+            <form method="post" action="/users/add" enctype="multipart/form-data" novalidate class="needs-validation" id="newUserForm">
+                
+                <!-- Basic Information Section -->
+                <div class="form-section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h3 class="section-title">Basic Information</h3>
+                            <p class="section-subtitle">Enter the user's basic details</p>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Upload Image :</label>
-                        <input type="file" id="image" name="image" class="form-control" accept="image/*">
+                    
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label-modern">
+                                <i class="fas fa-user-circle text-primary"></i>
+                                Full Name
+                            </label>
+                            <input type="text" 
+                                   name="name" 
+                                   id="name" 
+                                   class="form-control-modern" 
+                                   placeholder="John Doe" 
+                                   required>
+                            <div class="invalid-feedback">Please enter the user's name</div>
+                            <div class="valid-feedback">Name looks good!</div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="email" class="form-label-modern">
+                                <i class="fas fa-envelope text-primary"></i>
+                                Email Address
+                            </label>
+                            <input type="email" 
+                                   name="email" 
+                                   id="email" 
+                                   class="form-control-modern" 
+                                   placeholder="john@example.com" 
+                                   required>
+                            <div class="invalid-feedback">Please enter a valid email address</div>
+                            <div class="valid-feedback">Email looks good!</div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email :</label>
-                        <input type="email" name="email" class="form-control" placeholder="abc@gmail.com" required>
-                        <div class="invalid-feedback">email is required</div>
+                </div>
+
+                <!-- Profile Image Section -->
+                <div class="form-section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div>
+                            <h3 class="section-title">Profile Picture</h3>
+                            <p class="section-subtitle">Upload a profile image (Optional)</p>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="post" class="form-label">Post :</label>
-                        <textarea name="post" class="form-control" rows="5" placeholder="Create a post..." required></textarea>
-                        <div class="invalid-feedback">Create a post</div>
-                        <div class="valid-feedback">Post looks Great</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="comment" class="form-label">Comment :</label>
-                        <textarea name="comment" class="form-control" rows="3" placeholder="Add a comment..." required></textarea>
-                        <div class="invalid-feedback">Please add a comment about your post</div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="likes" class="form-label">Likes :</label>
-                                <input type="number" name="likes" class="form-control" style="width: 100px;">
+                    
+                    <label for="image" class="cursor-pointer">
+                        <div class="file-upload-wrapper">
+                            <div>
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <h4 class="fw-semibold text-gray-700 mb-2">Upload Profile Image</h4>
+                                <p class="text-muted mb-3">Click to browse or drag & drop your image here</p>
+                                <div class="text-muted small">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Supports: JPG, PNG, GIF • Max: 5MB
+                                </div>
                             </div>
+                        </div>
+                    </label>
+                    <input type="file" 
+                           name="image" 
+                           id="image" 
+                           class="d-none" 
+                           accept="image/*">
+                </div>
+
+                <!-- Content Section -->
+                <div class="form-section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div>
+                            <h3 class="section-title">User Content</h3>
+                            <p class="section-subtitle">Add user's first post and bio</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="post" class="form-label-modern">
+                            <i class="fas fa-feather-alt text-primary"></i>
+                            First Post
+                        </label>
+                        <textarea name="post" 
+                                  id="post" 
+                                  class="form-control-modern" 
+                                  rows="4" 
+                                  placeholder="Share something interesting..." 
+                                  required></textarea>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="form-text text-muted small">
+                                <span id="postCharCount">0</span> / 500 characters
+                            </div>
+                            <div class="invalid-feedback">Please write a post</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="comment" class="form-label-modern">
+                            <i class="fas fa-comment text-primary"></i>
+                            Bio / Introduction
+                        </label>
+                        <textarea name="comment" 
+                                  id="comment" 
+                                  class="form-control-modern" 
+                                  rows="3" 
+                                  placeholder="Tell us about yourself..."
+                                  required></textarea>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="form-text text-muted small">
+                                <span id="commentCharCount">0</span> / 200 characters
+                            </div>
+                            <div class="invalid-feedback">Please add a bio</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Section -->
+                <div class="form-section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h3 class="section-title">Initial Statistics</h3>
+                            <p class="section-subtitle">Set initial engagement metrics (Optional)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-container">
+                        <div class="row g-4">
                             <div class="col-md-6">
-                                <label for="followers" class="form-label">Followers :</label>
-                                <input type="number" name="followers" class="form-control" style="width: 100px;">
+                                <div class="stats-input-group">
+                                    <div class="stats-icon likes-icon">
+                                        <i class="fas fa-heart"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <label for="likes" class="form-label-modern mb-1">Initial Likes</label>
+                                        <input type="number" 
+                                               name="likes" 
+                                               id="likes" 
+                                               class="form-control-modern stats-input" 
+                                               value="0" 
+                                               min="0">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="stats-input-group">
+                                    <div class="stats-icon followers-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <label for="followers" class="form-label-modern mb-1">Initial Followers</label>
+                                        <input type="number" 
+                                               name="followers" 
+                                               id="followers" 
+                                               class="form-control-modern stats-input" 
+                                               value="0" 
+                                               min="0">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password :</label>
-                        <input type="password" name="password" class="form-control" placeholder="Set a password" required>
-                        <div class="invalid-feedback">Set a password for privacy</div>
+                </div>
+
+                <!-- Security Section -->
+                <div class="form-section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <h3 class="section-title">Account Security</h3>
+                            <p class="section-subtitle">Set a secure password for the account</p>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </form>
-            </div>
+                    
+                    <div class="alert alert-info border-info bg-info bg-opacity-10 border-0 rounded-3 mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-shield-alt fa-lg me-3 text-info"></i>
+                            <div>
+                                <h6 class="fw-semibold mb-1">Password Security</h6>
+                                <p class="mb-0 small">Choose a strong password to protect the user's account.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="password" class="form-label-modern">
+                                <i class="fas fa-key text-primary"></i>
+                                Account Password
+                            </label>
+                            <div class="input-group">
+                                <input type="password" 
+                                       name="password" 
+                                       id="password" 
+                                       class="form-control-modern" 
+                                       placeholder="Enter a secure password" 
+                                       required>
+                                <button class="btn btn-outline-secondary border-start-0" 
+                                        type="button" 
+                                        id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="invalid-feedback">Please create a password</div>
+                            <div class="form-text text-muted small">
+                                <i class="fas fa-lightbulb me-1"></i>
+                                Password must b numbers letters are not allowed
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center mt-5 pt-3">
+                    <button type="submit" class="btn submit-btn text-white px-5 py-3">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Create User Account
+                    </button>
+                    <p class="text-muted small mt-3">
+                        <i class="fas fa-info-circle me-1"></i>
+                        All fields except image and statistics are required
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('newUserForm');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const postTextarea = document.getElementById('post');
+        const commentTextarea = document.getElementById('comment');
+        const postCharCount = document.getElementById('postCharCount');
+        const commentCharCount = document.getElementById('commentCharCount');
+        const fileUploadWrapper = document.querySelector('.file-upload-wrapper');
+        const fileInput = document.getElementById('image');
+
+        // Form validation
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        });
+
+        // Toggle password visibility
+        if (togglePasswordBtn) {
+            togglePasswordBtn.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+        }
+
+        // Character counters
+        function updateCharCount(textarea, counter, maxLength) {
+            const length = textarea.value.length;
+            counter.textContent = length;
+            
+            if (length > maxLength * 0.9) {
+                counter.classList.add('text-warning');
+                counter.classList.remove('text-success');
+            } else if (length > maxLength * 0.7) {
+                counter.classList.add('text-success');
+                counter.classList.remove('text-warning');
+            } else {
+                counter.classList.remove('text-warning', 'text-success');
+            }
+            
+            if (length > maxLength) {
+                textarea.value = textarea.value.substring(0, maxLength);
+                counter.textContent = maxLength;
+                counter.classList.add('text-danger');
+            }
+        }
+
+        if (postTextarea && postCharCount) {
+            postTextarea.addEventListener('input', () => updateCharCount(postTextarea, postCharCount, 500));
+            updateCharCount(postTextarea, postCharCount, 500);
+        }
+
+        if (commentTextarea && commentCharCount) {
+            commentTextarea.addEventListener('input', () => updateCharCount(commentTextarea, commentCharCount, 200));
+            updateCharCount(commentTextarea, commentCharCount, 200);
+        }
+
+        // File upload handling
+        if (fileUploadWrapper && fileInput) {
+            // Click to upload
+            fileUploadWrapper.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            // File selection handler
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    if (!file.type.startsWith('image/')) {
+                        alert('Please select an image file (JPG, PNG, GIF)');
+                        return;
+                    }
+                    
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('File size should be less than 5MB');
+                        return;
+                    }
+                    
+                    // Show success state
+                    fileUploadWrapper.innerHTML = `
+                        <div class="text-center">
+                            <div class="text-success mb-3">
+                                <i class="fas fa-check-circle fa-3x"></i>
+                            </div>
+                            <h5 class="fw-semibold text-gray-700 mb-2">Image Selected</h5>
+                            <p class="text-muted mb-3 small">${file.name}</p>
+                            <button type="button" class="btn btn-sm btn-outline-primary">
+                                Change Image
+                            </button>
+                        </div>
+                    `;
+                    
+                    // Re-attach click event to change button
+                    fileUploadWrapper.querySelector('button').addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        fileInput.click();
+                    });
+                }
+            });
+
+            // Drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileUploadWrapper.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                fileUploadWrapper.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                fileUploadWrapper.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                fileUploadWrapper.style.borderColor = '#3b82f6';
+                fileUploadWrapper.style.backgroundColor = '#eff6ff';
+            }
+
+            function unhighlight() {
+                fileUploadWrapper.style.borderColor = '#d1d5db';
+                fileUploadWrapper.style.backgroundColor = '#f9fafb';
+            }
+
+            fileUploadWrapper.addEventListener('drop', function(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+                fileInput.dispatchEvent(new Event('change'));
+            });
+        }
+
+        // Auto-focus first input
+        document.getElementById('name').focus();
+
+        // Add floating labels effect
+        const formInputs = form.querySelectorAll('.form-control-modern');
+        formInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.parentElement.classList.remove('focused');
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>

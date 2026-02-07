@@ -1,104 +1,104 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-2">
-  <div class="container">
-    <!-- Brand Logo -->
-    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/users" style="color: #3b82f6;">
-      <i class="fas fa-compass fa-lg"></i>
-      <span class="d-none d-md-inline fs-5">Sayaragaram</span>
-    </a>
+  <div class="container-fluid px-3">
+    <!-- Mobile: Brand, Desi Chat, and Music Button in one line -->
+    <div class="d-flex align-items-center w-100">
+      <!-- Brand Logo -->
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/users" style="color: #3b82f6;">
+        <i class="fas fa-compass"></i>
+        <span class="d-none d-sm-inline fs-6">Sayaragaram</span>
+      </a>
+      
+      <!-- Mobile Desi Chat & Music Button -->
+      <div class="d-lg-none d-flex align-items-center gap-2 ms-auto me-3">
+        <span class="text-primary fw-medium badge bg-primary bg-opacity-10 border-0">
+          <i class="fas fa-heart text-danger me-1"></i> Desi Chat
+        </span>
+        <button id="playMusicMobile" class="btn btn-success btn-sm rounded-pill px-3">
+          <i class="fas fa-music"></i> <span class="d-none d-sm-inline">Play</span>
+        </button>
+      </div>
 
-    <!-- Mobile Toggle Button -->
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <!-- Desktop: Welcome and Music Button -->
+      <div class="d-none d-lg-flex align-items-center ms-4">
+        <span class="text-primary fw-medium">
+          <i class="fas fa-heart text-danger me-1"></i> Welcome to Desi Chat
+        </span>
+        <button id="playMusicDesktop" class="btn btn-success btn-sm rounded-pill px-3 ms-3">
+          <i class="fas fa-music me-1"></i> Play Music 🎶
+        </button>
+      </div>
+
+      <!-- Mobile Toggle Button -->
+      <button class="navbar-toggler border-0 ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
 
     <!-- Navigation Items -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <!-- Main Navigation Links with better spacing -->
-      <ul class="navbar-nav mx-auto d-flex justify-content-center align-items-center gap-3">
+      <!-- Navigation Links -->
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center px-3 py-2 rounded" href="/users">
-            <i class="fas fa-home mb-1"></i>
-            <span class="small">Home</span>
+          <a class="nav-link d-flex align-items-center gap-2 px-3" href="/users">
+            <i class="fas fa-home"></i> Home
           </a>
         </li>
-        
         <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center px-3 py-2 rounded" href="/users">
-            <i class="fas fa-users mb-1"></i>
-            <span class="small">Users</span>
+          <a class="nav-link d-flex align-items-center gap-2 px-3" href="/users">
+            <i class="fas fa-users"></i> Users
           </a>
         </li>
-        
         <li class="nav-item">
-          <a class="nav-link d-flex flex-column align-items-center px-3 py-2 rounded" href="/users/add">
-            <i class="fas fa-user-plus mb-1"></i>
-            <span class="small">Add Account</span>
+          <a class="nav-link d-flex align-items-center gap-2 px-3" href="/users/add">
+            <i class="fas fa-user-plus"></i> Add Account
           </a>
         </li>
       </ul>
 
-      <!-- Right Side Navigation -->
-      <ul class="navbar-nav align-items-center">
+      <!-- Auth Buttons -->
+      <div class="d-flex flex-column flex-lg-row gap-2">
         <% if(!currClient){ %>
-          <div class="d-flex gap-2">
-            <li class="nav-item">
-              <a class="btn btn-outline-primary px-4 rounded-pill" href="/signup">
-                <i class="fas fa-user-plus me-1"></i> Sign Up
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-primary px-4 rounded-pill" href="/login">
-                <i class="fas fa-sign-in-alt me-1"></i> Login
-              </a>
-            </li>
-          </div>
+          <a class="btn btn-outline-primary rounded-pill" href="/signup">
+            <i class="fas fa-user-plus me-1"></i> Sign Up
+          </a>
+          <a class="btn btn-primary rounded-pill" href="/login">
+            <i class="fas fa-sign-in-alt me-1"></i> Login
+          </a>
+        <% } else { %>
+          <a class="btn btn-outline-danger rounded-pill" href="/logout">
+            <i class="fas fa-sign-out-alt me-1"></i> Logout
+          </a>
         <% } %>
-        
-        <% if(currClient){ %>
-          <!-- User Profile with Dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" 
-               data-bs-toggle="dropdown" aria-expanded="false">
-              <div class="bg-primary bg-gradient rounded-circle d-flex align-items-center justify-content-center" 
-                   style="width: 36px; height: 36px;">
-                <i class="fas fa-user text-white"></i>
-              </div>
-              <span class="d-none d-lg-inline">Profile</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="min-width: 200px;">
-              <li>
-                <a class="dropdown-item d-flex align-items-center py-2" href="#">
-                  <i class="fas fa-user-circle me-2 text-primary"></i>
-                  <div>
-                    <div class="fw-bold">My Profile</div>
-                    <div class="text-muted small">View your profile</div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item d-flex align-items-center py-2" href="#">
-                  <i class="fas fa-cog me-2 text-primary"></i>
-                  <div>
-                    <div class="fw-bold">Settings</div>
-                    <div class="text-muted small">Manage preferences</div>
-                  </div>
-                </a>
-              </li>
-              <li><hr class="dropdown-divider my-1"></li>
-              <li>
-                <a class="dropdown-item d-flex align-items-center py-2 text-danger" href="/logout">
-                  <i class="fas fa-sign-out-alt me-2"></i>
-                  <div>
-                    <div class="fw-bold">Logout</div>
-                    <div class="text-muted small">End your session</div>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </li>
-        <% } %>
-      </ul>
+      </div>
     </div>
   </div>
 </nav>
+
+<!-- Audio -->
+<audio id="bgMusic" src="/uploads/Download.mp3"></audio>
+
+<script>
+const music = document.getElementById('bgMusic');
+const playBtnDesktop = document.getElementById('playMusicDesktop');
+const playBtnMobile = document.getElementById('playMusicMobile');
+
+function playMusic(btn) {
+  music.volume = 0.4;
+  music.play();
+  btn.style.display = 'none';
+  
+  // Create pause button
+  const pauseBtn = document.createElement('button');
+  pauseBtn.className = btn.className.replace('btn-success', 'btn-warning');
+  pauseBtn.innerHTML = '<i class="fas fa-pause me-1"></i> Pause';
+  pauseBtn.onclick = function() {
+    music.pause();
+    pauseBtn.remove();
+    btn.style.display = 'inline-block';
+  };
+  btn.parentNode.appendChild(pauseBtn);
+}
+
+if (playBtnDesktop) playBtnDesktop.addEventListener('click', () => playMusic(playBtnDesktop));
+if (playBtnMobile) playBtnMobile.addEventListener('click', () => playMusic(playBtnMobile));
+</script>
